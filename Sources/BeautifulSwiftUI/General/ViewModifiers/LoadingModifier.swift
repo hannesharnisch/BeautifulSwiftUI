@@ -17,10 +17,7 @@ struct LoadingModifier: ViewModifier{
         ZStack{
             content.disabled(shown).opacity(shown ? 0.6 : 1)
             if shown {
-                Color.blue.opacity(0.05).edgesIgnoringSafeArea(.all)
-                DefaultAcitivtyIndicator().background(
-                    RoundedRectangle(cornerRadius: 5).foregroundColor(Color.secondary).shadow(color: Color.black, radius: 5)
-                ).frame(maxHeight: 500).padding()
+                DefaultAcitivtyIndicator().defaultBackground().frame(maxWidth:150, maxHeight: 150, alignment: .center).padding()
             }
         }
     }

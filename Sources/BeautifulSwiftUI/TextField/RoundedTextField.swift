@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-public struct RoundTextField: View {
+public struct RoundedTextField: View {
     @Environment(\.errorColor) var errorColor
     @Environment(\.textFieldBackground) var textFieldBackground
     @Binding private var text:String

@@ -69,7 +69,7 @@ public struct SecureFieldWithEyeOption: View {
             })
         }
     }
-    func defaultDesign() -> some View {
+    public func defaultDesign() -> some View {
         return self.foregroundColor(.primary)
     }
 }
