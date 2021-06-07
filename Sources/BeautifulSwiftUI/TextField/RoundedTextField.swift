@@ -55,8 +55,8 @@ public struct RoundedTextField: View {
     }
 }
 
-struct RoundTextField_Previews: PreviewProvider {
+struct RoundedTextField_Previews: PreviewProvider {
     static var previews: some View {
-        RoundTextField("Text", text: .constant(""),error: .constant(nil)).padding()
+        RoundedTextField("Text", text: .constant(""),error: .constant(nil)).padding()
     }
 }
