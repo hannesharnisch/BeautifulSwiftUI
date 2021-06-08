@@ -37,6 +37,9 @@ public struct DefaultSideBarMenu<Content: View>: View {
                     }
                 }
                 Spacer()
+                Button(action: {withAnimation {self.showSideBar = false}}, label: {
+                    Image(systemName: "xmark")
+                }).font(.headline).foregroundColor(.white).padding().background(Circle().foregroundColor(.red.opacity(0.8)))
             }.padding(.vertical,60).frame(height:UIScreen.main.bounds.height).edgesIgnoringSafeArea(.vertical)
         } viewFor: { index in
             self.viewForItem(index)
@@ -70,18 +73,21 @@ public struct SideBarMenu<Content:View,SideMenu:View>: View {
         self._selection = selection
     }
     public var body: some View {
-        ZStack{
-            HStack{
-                VStack{
-                    self.sideMenu(selection).padding(.vertical)
-                }.frame(width: 80).background(Color.black.edgesIgnoringSafeArea(.vertical)).offset(x: self.showSideBar ? CGFloat(0) : CGFloat(-(80))).padding(.trailing, self.showSideBar ? CGFloat(0) : CGFloat(-(80)))
-                self.presentedView
-            }
+        GeometryReader { geometry in
+            ZStack{
+                self.presentedView.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+                HStack{
+                    VStack{
+                        self.sideMenu(selection)
+                    }.frame(width: 80).background(Color.black.edgesIgnoringSafeArea(.vertical)).padding(.leading, self.showSideBar ? CGFloat(0) : CGFloat(-(80)))
+                    Spacer()
+                }
+            }.frame(width: geometry.size.width,height:geometry.size.height)
         }
     }
     var presentedView: some View {
         ZStack(alignment:.center){
-            viewForItem(selection).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center).padding(.trailing,showSideBar ? CGFloat(-80) : CGFloat(0))
+            viewForItem(selection)
             if self.showSideBar {
                 Color.gray.opacity(0.0001).onTapGesture {
                     withAnimation(.easeIn(duration:0.25)) {
@@ -92,7 +98,9 @@ public struct SideBarMenu<Content:View,SideMenu:View>: View {
         }
     }
     func toggleSideBar() {
-        self.showSideBar.toggle()
+        withAnimation {
+            self.showSideBar.toggle()
+        }
     }
 }
 
@@ -110,6 +118,8 @@ struct TestView:View{
                     default:
                         Text("HI")
                     }
+                    Spacer()
+                    Text("HIEI")
                 }
             }
         }
