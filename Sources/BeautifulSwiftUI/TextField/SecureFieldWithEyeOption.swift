@@ -8,8 +8,6 @@
 import SwiftUI
 
 public struct SecureFieldWithEyeOption: View {
-    @Environment(\.errorColor) var errorColor
-    @Environment(\.textFieldBackground) var textFieldBackground
     @State private var showPassword = false
     @Binding private var text:String
     private var placeholder:String
@@ -31,46 +29,18 @@ public struct SecureFieldWithEyeOption: View {
         self.onCommit = onCommit
     }
     public var body: some View {
-        VStack(alignment: .leading){
-            core.frame(height:20).padding().roundedRectBackground(color: textFieldBackground).roundedRectOverlay(color: error == nil ? Color.primary.opacity(0.5) : errorColor.opacity(0.6))
-            if error != nil {
-                Text(error!).foregroundColor(errorColor.opacity(0.8)).font(.body).padding(.leading).padding(.top,-5)
-            }
-        }
-    }
-    var core: some View {
-        HStack{
-            ZStack{
-                if self.text == "" {
-                    HStack{
-                        Text(placeholder).font(.body).opacity(0.6).padding(.vertical)
-                        Spacer()
-                    }.allowsHitTesting(false)
-                }
-                if showPassword {
-                    TextField("", text: self.$text) { (finished) in
-                        self.error = nil
-                        self.onEdit(finished)
-                    } onCommit: {
-                        self.onCommit()
-                    }.frame(height: 10)
-                }else{
-                    SecureField("",text: self.$text) {
-                        self.error = nil
-                        self.onCommit()
-                    }.frame(height: 10)
-                }
-            }
-            Divider().padding(1)
-            Button(action: {
-                showPassword.toggle()
-            }, label: {
-                Image(systemName: showPassword ? "eye" : "eye.slash")
-            })
+        if showPassword{
+            RoundedTextField(placeholder, text: $text,button: Button(action: {showPassword.toggle()}, label: {
+                Image(systemName: "eye")
+            }),onEdit: onEdit,onCommit:onCommit)
+        }else{
+            RoundedTextField(placeholder, text: $text,button: Button(action: {showPassword.toggle()}, label: {
+                Image(systemName: "eye.slash")
+            }),secured: true,onEdit: onEdit,onCommit:onCommit)
         }
     }
     public func defaultDesign() -> some View {
-        return self.foregroundColor(.primary)
+        return self.foregroundColor(.primary).frame(height:60)
     }
 }
 
