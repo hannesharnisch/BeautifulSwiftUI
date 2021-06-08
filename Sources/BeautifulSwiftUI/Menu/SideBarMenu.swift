@@ -11,6 +11,11 @@ public struct MenuItem:Identifiable, Equatable {
     public let id:Int
     public let image:Image
     public let name:String
+    public init(index:Int,image:Image,name:String){
+        self.id = index
+        self.image = image
+        self.name = name
+    }
 }
 public struct DefaultSideBarMenu<Content: View>: View {
     @Binding private var selection:Int
@@ -97,7 +102,7 @@ struct TestView:View{
     @State var open = true
     var body: some View {
         VStack{
-            DefaultSideBarMenu($open, selection: $selection, items: [MenuItem(id: 0, image: Image(systemName: "house.fill"), name: "home"),MenuItem(id: 1,image: Image(systemName: "gear"), name: "settings"),MenuItem(id: 2,image: Image(systemName: "chevron.right"), name: "s")]) { index in
+            DefaultSideBarMenu($open, selection: $selection, items: [MenuItem(index: 0, image: Image(systemName: "house.fill"), name: "home"),MenuItem(index: 1,image: Image(systemName: "gear"), name: "settings"),MenuItem(index: 2,image: Image(systemName: "chevron.right"), name: "s")]) { index in
                 VStack{
                     switch selection {
                     case 0:
